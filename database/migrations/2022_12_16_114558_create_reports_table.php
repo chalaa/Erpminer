@@ -19,7 +19,9 @@ return new class extends Migration
             $table->longText('description');
             $table->string('file_name');
             $table->string('location');
+            $table->integer('column_number');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

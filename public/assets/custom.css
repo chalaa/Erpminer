@@ -1,0 +1,96 @@
+.post-image{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+.post-poster{
+    margin-bottom: 0%; 
+    margin-left: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.post-poster:hover{
+    text-decoration: underline;
+}
+
+.post-time{
+    margin-bottom: 0%;
+    margin-left: 20px;
+    font-size: 15px;
+}
+
+.post-post{
+    overflow-wrap: break-word;
+}
+
+.link-card{
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.like, .comment{
+    cursor: pointer;
+}
+
+.like p, .comment p{
+    margin-bottom: 0%;
+    margin-left: 5px;
+}
+
+.like:hover{
+    color: red;
+}
+
+.comment:hover{
+    color: blue;
+}
+
+.popup-account{
+    width: inherit;
+    height: inherit;
+    border-radius: 25rem !important;
+    position: absolute;
+    z-index: 10;
+    top: 70px;
+    display: none;
+}
+
+.list:first-child.popup-account{
+    top: 110px;
+}
+
+.list:last-child{
+    bottom: 110px;
+}
+
+.list .user{
+    border-radius: 25rem;
+}
+
+.list:last-child{
+    padding-bottom: 1rem!important;
+}
+
+.popup-account.d-md-block{
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s
+}
+
+.btn{
+    border-radius: 25rem;
+}
+
+.title{
+    width: 100%;
+    height: 25px;
+    border-radius: .5rem;
+    text-align: start;
+    padding-left: 10px;
+    margin: 5px;
+    margin-bottom: 50px;
+    margin-top: 25px;
+}
