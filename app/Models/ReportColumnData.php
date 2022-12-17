@@ -18,4 +18,14 @@ class ReportColumnData extends Model
     ];
 
     protected $guarded = [];
+
+    public function report()
+    {
+        return $this->belongsTo(Report::class,'report_id','id');
+    }
+
+    public function column()
+    {
+        return $this->belongsTo(ReportLayoutColumn::class,'column_id','id');
+    }
 }

@@ -2,24 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Report;
 use Illuminate\Http\Request;
+use App\Models\Report;
+use App\Models\ReportLayoutDefault;
 use Illuminate\Support\Facades\Auth;
 
-class ReportController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
         //
-        return view('dashboard',[
-            'reports' => Report::all()
-        ]);
+        $userid = Auth::user()->id;
 
+        if(ReportLayoutDefault::where('report_id', $id)->where('user_id',$userid)->get()->isEmpty()){
+            return view('user.report',[
+                'report' => Report::find($id),
+                'reportDefault' => ReportLayoutDefault::where('report_id', $id)->where('user_id',1)->get()
+            ]);
+        }else{
+            return view('user.report',[
+                'report' => Report::find($id),
+                'reportDefault' => ReportLayoutDefault::where('report_id', $id)->where('user_id',$userid)->get()
+            ]);
+        }
     }
 
     /**
@@ -30,10 +40,6 @@ class ReportController extends Controller
     public function create()
     {
         //
-        if(!(Auth::user()->is_admin == 1)){
-            abort(403,"an authorizated Action");
-        }
-        return view('admin.addReport');
     }
 
     /**
@@ -45,26 +51,6 @@ class ReportController extends Controller
     public function store(Request $request)
     {
         //
-        $request->validate([
-            'report_name' => ['required','string','unique:reports,report_name'],
-            'description' => ['required','string','min:30'],
-            'column_number' => ['required','integer'],
-            'report_file' => ['required','file'],
-        ]);
-
-        $filename = $request->report_name . '.' . $request->report_file->extension();
-
-        $filePath = $request->report_file->storeAs('reports',$filename,'public');
-
-        Report::create([
-            'report_name' => $request->report_name,
-            'description' => $request->description,
-            'file_name' => $filename,
-            'location' => $filePath,
-            'column_number' => $request->column_number
-        ]);
-
-        return redirect()->route('dashboard')->with('success','Report Added successfully');
     }
 
     /**
@@ -110,13 +96,5 @@ class ReportController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-
-    public function reportList(){
-
-        return view('admin.allReport',[
-            'reports' => Report::all()
-        ]);
     }
 }

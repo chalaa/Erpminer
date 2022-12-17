@@ -21,4 +21,20 @@ class Report extends Model
     ];
 
     protected $guarded = [];
+
+    public function layout(){
+        return $this->hasMany(ReportLayout::class,'report_id','id');
+    }
+
+    public function column(){
+        return $this->hasMany(ReportLayoutColumn::class,'report_id','id');
+    }
+
+    public function default(){
+        return $this->hasOne(ReportLayoutDefault::class,'report_id','id');
+    }
+
+    public function columnData(){
+        return $this->hasMany(ReportColumnData::class,'report_id','id');
+    }
 }

@@ -19,4 +19,19 @@ class ReportLayout extends Model
     ];
 
     protected $guarded = false;
+
+    public function report()
+    {
+        return $this->belongsTo(Report::class,'report_id','id');
+    }
+
+    public function column()
+    {
+        return $this->hasMany(ReportLayoutColumn::class,'layout_id','id');
+    }
+    
+    public function default(){
+        return $this->hasMany(ReportLayoutDefault::class,'layout_id','id');
+    }
+
 }

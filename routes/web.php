@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReportLayoutController;
 use App\Http\Controllers\ReportColumnDataController;
+use App\Http\Controllers\UserController;
 use App\View\Components\Admin;
 use Illuminate\Support\Facades\Route;
 
@@ -22,9 +23,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [ReportController::class,'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -40,6 +39,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/addlayout/{id}',[ReportLayoutController::class,'create'])->name('layout.create');
     Route::post('/addlayout/{id}',[ReportLayoutController::class,'store'])->name('layout.store');
+
+    Route::get('/reportcolumn/{id}',[UserController::class,'index'])->name('report.column');
 });
 
 require __DIR__.'/auth.php';

@@ -22,4 +22,14 @@ class ReportLayoutDefault extends Model
     ];
 
     protected $guarded = [];
+
+    public function report()
+    {
+        return $this->belongsTo(Report::class,'report_id','id');
+    }
+
+    public function layout()
+    {
+        return $this->belongsTo(ReportLayout::class,'layout_id','id');
+    }
 }
