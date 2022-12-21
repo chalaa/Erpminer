@@ -40,7 +40,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/addlayout/{id}',[ReportLayoutController::class,'create'])->name('layout.create');
     Route::post('/addlayout/{id}',[ReportLayoutController::class,'store'])->name('layout.store');
 
-    Route::get('/reportcolumn/{id}',[UserController::class,'index'])->name('report.column');
+    Route::get('/reportcolumn/{id}',[ReportColumnDataController::class,'index'])->name('report.column');
+
+    Route::get('/userlayout',[ReportLayoutController::class,'userlayout'])->name('user.layout');
+    Route::get('/userlayout/{id}',[ReportLayoutController::class,'createuserlayout'])->name('create.user.layout');
+    Route::post('/userlayout/{id}',[ReportLayoutController::class,'userlayoutstore'])->name('user.layout.store');
+
+    Route::get('/layoutList',[ReportLayoutController::class,'layoutList'])->name('layoutList');
+    Route::get('/editlayout/{id}',[ReportLayoutController::class,'layoutEdit'])->name('layoutEdit');
+    Route::put('/editlayout/{id}',[ReportLayoutController::class,'layoutUpdate'])->name('layoutUpdate');
+    Route::delete('/deletelayout/{id}',[ReportLayoutController::class,'destroy'])->name('deletelayout');
+    Route::get('/reordercolumn/{id}',[ReportLayoutController::class,'reordercolumn'])->name('reordercolumn');
+    Route::put('/reordercolumn/{id}',[ReportLayoutController::class,'columnUpdate'])->name('columnUpdate');
+    Route::put('/updateDefault/{id}/{id2}',[ReportLayoutController::class,'updateDefault'])->name('updateDefault');
+
 });
 
 require __DIR__.'/auth.php';

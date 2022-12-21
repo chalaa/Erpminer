@@ -15,6 +15,22 @@
                             All Report
                         </a>
                     </div>
+                @else
+                    <div class="shrink-0 flex items-center mr-3">
+                        <a href="{{ route('dashboard') }}">
+                            Dashboard
+                        </a>
+                    </div>
+                    <div class="shrink-0 flex items-center mr-3">
+                        <a href="{{ route('user.layout') }}">
+                            Add Layout
+                        </a>
+                    </div>
+                    <div class="shrink-0 flex items-center">
+                        <a href="{{ route('layoutList') }}">
+                            All Layout
+                        </a>
+                    </div>
                 @endif
                
             </div>

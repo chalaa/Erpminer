@@ -17,19 +17,7 @@ class UserController extends Controller
     public function index($id)
     {
         //
-        $userid = Auth::user()->id;
-
-        if(ReportLayoutDefault::where('report_id', $id)->where('user_id',$userid)->get()->isEmpty()){
-            return view('user.report',[
-                'report' => Report::find($id),
-                'reportDefault' => ReportLayoutDefault::where('report_id', $id)->where('user_id',1)->get()
-            ]);
-        }else{
-            return view('user.report',[
-                'report' => Report::find($id),
-                'reportDefault' => ReportLayoutDefault::where('report_id', $id)->where('user_id',$userid)->get()
-            ]);
-        }
+       
     }
 
     /**

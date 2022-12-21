@@ -21,6 +21,8 @@
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap4.min.css">
+
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
@@ -54,8 +56,17 @@
         <!-- overlayScrollbars -->
         <script src="/assets/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
         <!-- DataTables -->
-        <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
         <script>
+            $(document).ready(function () {
+                $('#example').DataTable();
+            });
+            
+            $('#example').DataTable({
+                processing: true,
+                serverSide: true,});
+
             $(function () {
               bsCustomFileInput.init();
             });
