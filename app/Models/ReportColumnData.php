@@ -14,12 +14,18 @@ class ReportColumnData extends Model
     protected $fillable = [
         'report_id',
         'column_id',
-        'column_data'
+        'column_data',
+        'column_name'
     ];
 
     protected $guarded = [];
 
-    
+    protected $cast = [
+        'report_id' => 'integer',
+        'column_id' => 'integer',
+        'column_data' => 'string',
+        'column_name' =>'string'
+    ];
 
     public function report()
     {
@@ -31,9 +37,5 @@ class ReportColumnData extends Model
         return $this->belongsTo(ReportLayoutColumn::class,'column_id','id');
     }
 
-    // public function scopeFilter($query, array $filters){
-    //     if($filters['search'] ?? false){
-    //         $query
-    //     }
-    // }
+    
 }

@@ -7,6 +7,7 @@ use App\Models\ReportLayoutColumn;
 use Illuminate\Http\Request;
 use App\Models\Report;
 use App\Models\ReportLayoutDefault;
+use App\Models\ReportLayout;
 use Illuminate\Support\Facades\Auth;
 
 class ReportColumnDataController extends Controller
@@ -33,32 +34,32 @@ class ReportColumnDataController extends Controller
         $columns = $report->column->where('layout_id', $reportDefault[0]->layout_id);
        $arr = [];
        $columnIds = [];
+       $columnName =[];
        $datas = [];
        $colnum= [];
        foreach ($columns as $column) {
            $arr[$column->column_number] = $column->column_name;
            $columnIds[$column->id] = $column->id;
+           $columnNames[$column->column_name] = $column->column_name;
            $colnum[$column->id] = $column->column_number;
+           $columnName[$column->column_name] = $column->column_number;
        }
        // dd(sizeof($columnIds));
-       
-       $data =  $report->columnData->whereIn('column_id',$columnIds);
+       $data =  $report->columnData->whereIn('report_id',$id);
        $coldat =$report->column;
        $tmp = 0;
        for($i = 0; $i < (sizeof($data)/sizeof($columnIds)); $i++) {
            $arrdata = [];
            for($j = 0; $j < sizeof($columnIds); $j++){
-               $arrdata[$colnum[$columnIds[$data[$tmp]->column_id]]] = $data[$tmp]->column_data;
+               $arrdata[$columnName[$columnNames[$data[$tmp]->column_name]]] = $data[$tmp]->column_data;
                $tmp++;
            }
            $datas[$i] = $arrdata;
        }
        
-
        return view('user.report',[
         'report' => $report,
         'arr' => $arr,
-        'json_data' => json_encode($datas,JSON_FORCE_OBJECT),
         'datas' => $datas,
         'coldat' => $coldat,
     ]);
@@ -72,10 +73,11 @@ class ReportColumnDataController extends Controller
     public function create($id)
     {
         //
-        
-
+        $userid = Auth::user()->id;
+       
+        $report = ReportLayoutDefault::where('report_id', $id)->where('user_id',$userid)->first();
         return view('admin.addColumnData',[
-            'reports' =>ReportLayoutColumn::where('report_id', $id)->get()
+            'reports' =>$report->layout->column
         ]);
     }
 
@@ -98,10 +100,12 @@ class ReportColumnDataController extends Controller
         
         foreach($request->column_name as $key=>$value){
             ReportColumnData::create([
-                'report_id' => $report[$key]->report_id,
-                'column_id' => $report[$key]->id,
-                'column_data' => $value
+                    'report_id' => $report[$key]->report_id,
+                    'column_id' => $report[$key]->id,
+                    'column_data' => $value,
+                    'column_name' => $report[$key]->column_name,
             ]);
+           
         }
 
         return redirect('dashboard')->with('success_msg', 'Layout created Successfully');

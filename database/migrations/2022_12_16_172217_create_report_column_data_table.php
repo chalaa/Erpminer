@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('report_id')->unsigned();
             $table->bigInteger('column_id')->unsigned();
+            $table->string('column_name');
             $table->string('column_data');
             $table->timestamps();
             $table->softDeletes();

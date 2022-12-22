@@ -27,7 +27,7 @@
                                     @for($j = 1; $j <= sizeof($arr); $j++)  
                                         <td>{{ $datas[$i][$j] }}</td>
                                     @endfor
-                                </tr>
+                                </tr>     
                             @endfor
                         </tbody>
                       </table>

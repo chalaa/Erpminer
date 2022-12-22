@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('layout_name');
             $table->string('report_name');
             $table->timestamps();
+            $table->softDeletes();
             $table->unique(['report_id', 'layout_id', 'user_id']);
             $table->foreign('report_id')->references('id')->on('reports')->onDelete('cascade');
             $table->foreign('layout_id')->references('id')->on('report_layouts')->onDelete('cascade');
