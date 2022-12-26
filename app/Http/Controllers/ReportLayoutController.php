@@ -55,38 +55,41 @@ class ReportLayoutController extends Controller
             'column_number.*' => ['required','integer',"max:$report->column_number","min:1"],
         ]);
         
-       
-
-        $layout = ReportLayout::create([
-            'report_id' => $report->id,
-            'layout_name' => $request->layout_name,
-            'report_name' => $report->report_name,
-            'description' => $request->description
-        ]);
-
         $columnNumber = $request->column_number;
-        foreach($request->column_name as $key => $value) {
-            ReportLayoutColumn::create([
-                'report_id'=>$report->id,
-                'layout_id'=> $layout->id,
-                'layout_name'=> $layout->layout_name,
-                'report_name'=> $report->report_name,
-                'column_name' => $value,
-                'column_number'=> $columnNumber[$key]
+        if(count(array_unique($columnNumber))==count($columnNumber)){
+            $layout = ReportLayout::create([
+                'report_id' => $report->id,
+                'layout_name' => $request->layout_name,
+                'report_name' => $report->report_name,
+                'description' => $request->description
             ]);
+    
+            foreach($request->column_name as $key => $value) {
+                ReportLayoutColumn::create([
+                    'report_id'=>$report->id,
+                    'layout_id'=> $layout->id,
+                    'layout_name'=> $layout->layout_name,
+                    'report_name'=> $report->report_name,
+                    'column_name' => $value,
+                    'column_number'=> $columnNumber[$key]
+                ]);
+            }
+            
+    
+            $user_id = Auth::user()->id;
+            ReportLayoutDefault::create([
+                'report_id'=> $report->id,
+                'layout_id' => $layout->id,
+                'user_id' => $user_id,
+                'layout_name' => $layout->layout_name,
+                'report_name' => $report->report_name
+            ]);
+            
+            return redirect('dashboard')->with('success_msg', 'Layout created Successfully');
         }
-        
-
-        $user_id = Auth::user()->id;
-        ReportLayoutDefault::create([
-            'report_id'=> $report->id,
-            'layout_id' => $layout->id,
-            'user_id' => $user_id,
-            'layout_name' => $layout->layout_name,
-            'report_name' => $report->report_name
-        ]);
-        
-        return redirect('dashboard')->with('success_msg', 'Layout created Successfully');
+       else{
+        return redirect("addlayout/$id")->with('success_msg', 'Layout created Successfully');
+       }
     }
 
     /**
@@ -189,27 +192,32 @@ class ReportLayoutController extends Controller
             'column_number.*' => ['required','integer',"max:$report->column_number","min:1"],
         ]);
         
-
-        $layout = ReportLayout::create([
-            'report_id' => $report->id,
-            'layout_name' => $request->layout_name,
-            'report_name' => $report->report_name,
-            'description' => $request->description
-        ]);
-
         $columnNumber = $request->column_number;
-        foreach($request->column_name as $key => $value) {
-            ReportLayoutColumn::create([
-                'report_id'=>$report->id,
-                'layout_id'=> $layout->id,
-                'layout_name'=> $layout->layout_name,
-                'report_name'=> $report->report_name,
-                'column_name' => $value,
-                'column_number'=> $columnNumber[$key]
+        if(count(array_unique($columnNumber))==count($columnNumber)){
+            $layout = ReportLayout::create([
+                'report_id' => $report->id,
+                'layout_name' => $request->layout_name,
+                'report_name' => $report->report_name,
+                'description' => $request->description
             ]);
-        }
-
-        return redirect('dashboard')->with('success_msg', 'Layout created Successfully');
+    
+            
+            foreach($request->column_name as $key => $value) {
+                ReportLayoutColumn::create([
+                    'report_id'=>$report->id,
+                    'layout_id'=> $layout->id,
+                    'layout_name'=> $layout->layout_name,
+                    'report_name'=> $report->report_name,
+                    'column_name' => $value,
+                    'column_number'=> $columnNumber[$key]
+                ]);
+            }
+    
+            return redirect('dashboard')->with('success_msg', 'Layout created Successfully');
+        }else{
+            return redirect("userlayout/$id")->with('success_msg', 'Layout created Successfully');
+           }
+       
     }
 
     public function layoutUpdate(Request $request , $id){
